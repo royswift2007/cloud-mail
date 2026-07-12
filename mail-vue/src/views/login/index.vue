@@ -1,11 +1,25 @@
 <template>
   <div id="login-box" :style=" background ? 'background: var(--el-bg-color)' : ''" v-loading="oauthLoading" element-loading-text="登录中...">
-    <div id="background-wrap" v-if="!settingStore.settings.background">
-      <div class="x1 cloud"></div>
-      <div class="x2 cloud"></div>
-      <div class="x3 cloud"></div>
-      <div class="x4 cloud"></div>
-      <div class="x5 cloud"></div>
+    <div id="left-notice" v-if="!settingStore.settings.background">
+      <div class="notice-inner">
+        <h1 class="notice-title">Hi Mail</h1>
+        <p class="notice-desc">
+          本项目仅供学习交流，禁止用于违法业务<br/>
+          请遵守当地法规，作者不承担任何法律责任
+        </p>
+
+        <div class="notice-warn">
+          <span class="warn-icon">⚠</span>
+          <span>仅接收邮件，请勿用于重要邮件！</span>
+        </div>
+
+        <div class="notice-card">
+          <div class="card-row"><span class="domain">vip9.cyou</span><span class="badge half">后缀有效期半年</span></div>
+          <div class="card-row"><span class="domain">sismi6.bond</span><span class="badge half">后缀有效期半年</span></div>
+          <div class="card-row"><span class="domain">vip0.xyz</span><span class="badge half">后缀有效期半年</span></div>
+          <div class="card-row highlight"><span class="domain">news.cc.cd</span><span class="badge long">长期有效</span></div>
+        </div>
+      </div>
     </div>
     <div v-else :style="background"></div>
     <div class="form-wrapper">
@@ -766,77 +780,117 @@ function submitRegister() {
 }
 
 
-#background-wrap {
-  height: 100%;
+#left-notice {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(100% - 450px);
   z-index: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  @media (max-width: 1024px) {
+    width: calc(100% - 384px);
+  }
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
-@keyframes animateCloud {
-  0% {
-    margin-left: -500px;
+.notice-inner {
+  pointer-events: auto;
+  width: 520px;
+  max-width: 90%;
+  padding: 40px 48px;
+  margin-left: 8%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.notice-title {
+  margin: 0 0 14px;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(41, 128, 185, 0.35);
+}
+
+.notice-desc {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #ecf0f1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.notice-warn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #b94a48;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 8px;
+}
+
+.warn-icon {
+  font-size: 16px;
+}
+
+.notice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #2c3e50;
+
+  &.highlight {
+    background: rgba(64, 169, 255, 0.18);
+    border: 1px solid rgba(64, 169, 255, 0.5);
+  }
+}
+
+.domain {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 600;
+  color: #1f3a5f;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #fff;
+  white-space: nowrap;
+
+  &.half {
+    background: #e67e22;
   }
 
-  100% {
-    margin-left: 100%;
+  &.long {
+    background: #27ae60;
   }
-}
-
-.x1 {
-  animation: animateCloud 30s linear infinite;
-  transform: scale(0.65);
-}
-
-.x2 {
-  animation: animateCloud 15s linear infinite;
-  transform: scale(0.3);
-}
-
-.x3 {
-  animation: animateCloud 25s linear infinite;
-  transform: scale(0.5);
-}
-
-.x4 {
-  animation: animateCloud 13s linear infinite;
-  transform: scale(0.4);
-}
-
-.x5 {
-  animation: animateCloud 20s linear infinite;
-  transform: scale(0.55);
-}
-
-.cloud {
-  background: linear-gradient(to bottom, #fff 5%, #f1f1f1 100%);
-  border-radius: 100px;
-  box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-  height: 120px;
-  width: 350px;
-  position: relative;
-}
-
-.cloud:after,
-.cloud:before {
-  content: "";
-  position: absolute;
-  background: #fff;
-  z-index: -1;
-}
-
-.cloud:after {
-  border-radius: 100px;
-  height: 100px;
-  left: 50px;
-  top: -50px;
-  width: 100px;
-}
-
-.cloud:before {
-  border-radius: 200px;
-  height: 180px;
-  width: 180px;
-  right: 50px;
-  top: -90px;
 }
 
 </style>
